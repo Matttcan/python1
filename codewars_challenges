@@ -1,0 +1,82 @@
+# Validate Sudoku with size `NxN`
+
+import numpy as np
+
+class Sudoku(object):
+    def __init__(self, data):
+        self.data = data
+    def is_valid(self):
+        for j in range(0, len(self.data)):
+            if sorted(self.data[j]) != [k+1 for k in range(0,len(self.data))]:
+                return False
+            colum_part = np.array(self.data).T.tolist()
+            if sorted(colum_part[j])!= [k+1 for k in range(0,len(self.data))]:
+                return False
+        return True
+
+
+# Catching Car Mileage Numbers
+def is_interesting(number, awesome_phrases):
+    # checking within two miles range
+    number_list = [number, number+1,number+2]
+    j = 0
+    
+    for number in number_list:
+        # checking condition 1
+        if len(str(number)) > 2:
+            
+            # checking condition 5
+            z3 = [int(list(str(number))[i]) for i in range(0, len(list(str(number))))]
+
+            if z3 == z3[::-1]:
+                if j == 0:
+                    return 2
+                else:
+                     return 1
+
+            # checking condition 6
+            for k in range(0, len(awesome_phrases)):
+                if number == awesome_phrases[k]:
+                    if j == 0:
+                        return 2
+                    else:
+                        return 1
+            
+            if number % 10**(len(str(number))-1) == 0:
+                if j == 0:
+                    return 2
+                else:
+                     return 1
+
+            # checking condition 2
+            if len(set(str(number))) == 1:
+                if j == 0:
+                    return 2
+                else:
+                     return 1
+
+            # checking condition 3
+            z1 = [int(str(number)[0])]
+            for j in range(1, len(list(str(number)))):
+                z1.append((z1[0] + j) % 9)
+            temp = list(str(number))
+            number2 = [int(temp[i]) for i in range(0, len(temp))]
+            if z1 == number2:
+                if j == 0:
+                    return 2
+                else:
+                     return 1
+
+            # checking condition 4
+            z2 = [int(str(number)[len(list(str(number)))-1])]
+            for j in range(1, len(list(str(number)))):
+                z2.append((int(z2[0]) + j) % 9)
+
+
+            if z2[::-1] == number2:
+                if j == 0:
+                    return 2
+                else:
+                     return 1
+        j += 1
+    return 0
